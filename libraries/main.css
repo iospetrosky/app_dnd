@@ -1,0 +1,47 @@
+﻿
+.navbar {
+	border-bottom: 1px silver;
+	border-bottom-style: solid;
+	margin-bottom: 20px;
+}
+
+.navbar-fixed_top {
+	top: 0px;
+	height: 60px;
+}
+.navbar-left {
+	top: 80px;
+	width: 80px;
+	background-color: #FF99FF;
+}
+.navbar-button {
+	float: left;
+	cursor: pointer;
+	width: 90px;
+	height: 30px;
+	padding-top:12px;
+	text-align:center;
+	border-radius: 4px;
+	box-shadow: 4px 4px;
+	margin-right:5px;
+	background-color:#99FFCC
+}
+.navbar-button-selected {
+	background-color:#66FF99;
+}
+body {
+	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+	font-size: medium;
+}
+.clickable {
+    cursor: pointer;
+}
+.content-area {
+	left: 20px;
+	width: 95%;
+
+	box-shadow: 4px 4px;
+    padding-top: 6px;
+    padding-left: 6px;
+
+}

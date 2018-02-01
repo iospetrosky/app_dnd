@@ -1,0 +1,33 @@
+﻿
+.form_item {
+	__border: 1px solid black;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	height: 25px;
+}
+
+.floating {
+    float: left;
+    width: 300px;
+}
+
+.fixed_width_label {
+	width: 120px;
+	float: left;
+}
+
+.form_newline {
+    clear: both;
+}
+.fixed_w1 {
+	width: 150px;
+}
+.fixed_w2 {
+	width: 60px;
+}
+input {
+	padding-left: 5px;
+}
