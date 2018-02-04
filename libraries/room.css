@@ -1,0 +1,35 @@
+﻿.boxed {
+    border: 1px solid black;
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+    
+#xTile {
+	width: 250px;
+	height: 260px;
+}
+#xCtrlPanel {
+	width: 580px;
+	height: 260px;
+}
+#xMonsters {
+	width: 580px;
+	height: 200px;
+}
+#xItems{
+	width: 250px;
+	height: 200px;
+}
+.s_table_cell_even {
+	font-size: 12px;
+	background-color: #FFFFCC;
+}
+.s_table_cell_odd {
+	font-size: 12px;
+	background-color: #CCFFCC;
+}
+.s_table_cell_head {
+	font-size: 12px;
+	background-color: #CCCCFF;
+	font-weight: bold;
+}    

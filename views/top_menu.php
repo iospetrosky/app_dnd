@@ -5,39 +5,53 @@
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>DND Game home</title>
 
-<link rel="stylesheet" href="app_dnd/libraries/main.css" />
+<?php
+echo link_tag('app_dnd/libraries/main.css');
+echo link_tag('app_dnd/libraries/forms.css');
+
+if (isset($css)) {
+    foreach($css as $c) {
+        echo link_tag('app_dnd/libraries/'.$c);
+    }
+}
+
+
+?>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="app_dnd/libraries/cookies.js"></script>
+<script src="<?php echo config_item('base_url'); ?>/app_dnd/libraries/cookies.js"></script>
 
 <script type="text/javascript">
-$(document).ready(run)
-function run() {
-    $(".navbar-button").mouseenter(function() {
-        $(this).addClass('navbar-button-selected')
-    })
-    
-    $(".navbar-button").click(function() {
-        var id = ($(this).attr('id'))
-        switch(id) {
-            case 'btn_home':
-                $("#if_content").attr('src','init_form.htm')
-                break
-            case 'btn_map':
-                $("#if_content").attr('src','map.htm')
-                break
-        }
-    })
-    
-    $(".navbar-button").mouseleave(function() {
-        $(this).removeClass('navbar-button-selected')
-    })
-    
-    $('#if_content').on('load', function(){
-        this.style.height=this.contentDocument.body.scrollHeight + 20 +'px'
-    });
+$(document).ready(function () {
 
-} //run
+        $(".navbar-button").mouseenter(function() {
+            $(this).addClass('navbar-button-selected')
+        })
+        
+        $(".navbar-button").click(function() {
+            var id = ($(this).attr('id'))
+            $u = "<?php echo config_item('base_url'); ?>"
+            switch(id) {
+                case 'btn_home':
+                    window.location.replace($u + '/dnd.php')
+                    break
+                case 'btn_room':
+                    window.location.replace($u + '/dnd.php/room')
+                    break
+            }
+        })
+        
+        $(".navbar-button").mouseleave(function() {
+            $(this).removeClass('navbar-button-selected')
+        })
+        
+        $('#if_content').on('load', function(){
+            this.style.height=this.contentDocument.body.scrollHeight + 20 +'px'
+        });
+    
+        run_local(); // must be defined in the subsequent views
+    
+    }) 
 </script>
 
 
@@ -52,4 +66,6 @@ function run() {
     <div class="navbar-button">Other</div>
 </div>
 
-<?php echo APPPATH; ?>
+<?php 
+//echo APPPATH; 
+?>

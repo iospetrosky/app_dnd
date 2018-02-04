@@ -1,6 +1,6 @@
 ﻿
 .form_item {
-	__border: 1px solid black;
+    __border: 1px solid black;
 	padding-top: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -9,9 +9,12 @@
 	height: 25px;
 }
 
+.framed {
+    border: 1px solid black;
+}
+
 .floating {
     float: left;
-    width: 300px;
 }
 
 .fixed_width_label {
