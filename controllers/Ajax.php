@@ -8,6 +8,19 @@ class Ajax extends CI_Controller {
         parent::__construct();
         $this->load->model('ajax_model');
         $this->load->library('table');
+        $this->load->helper('html_gen');
+    }
+
+    public function suffer($id, $hp) {
+        $this->ajax_model->monster_suffer_damage($id,$hp);
+    }
+    
+    public function delete_item($id) {
+        $this->ajax_model->delete_tile_item($id);
+    }
+
+    public function roll_dice($id) {
+        $this->ajax_model->roll_monster_dice($id);
     }
 
     public function room() {
@@ -39,7 +52,11 @@ class Ajax extends CI_Controller {
                     ));
                     $this->table->set_heading('Item','&nbsp');
                     foreach($items as $it) {
-                        $this->table->add_row($it->item,'buttons');
+                        $this->table->add_row($it->item,
+                                        span("[X]",array("class" => "clickable",
+                                                         "onclick" => "delete_item({$it->id})"
+                                        ))
+                        );
                     }
                     echo $this->table->generate();
                 } else {
@@ -55,17 +72,23 @@ class Ajax extends CI_Controller {
                         'cell_start' => '<td class=s_table_cell_odd>',
                         'cell_alt_start' => '<td class=s_table_cell_even>',
                     ));
-                    $this->table->set_heading('Monster','Hit points','Att. bonus','Def. bonus','Items','Dice rolls','&nbsp;');
+                    $this->table->set_heading('Monster','Hit<br/>points','Att.<br/>bonus','Def.<br/>bonus','Items','Dice rolls','&nbsp;');
                     foreach($monsters as $mon) {
                         $this->table->add_row($mon->monster,
-                                              "<div style='text-align:center'>{$mon->hit_points}</div>",
-                                              "<div style='text-align:center'>{$mon->bonus_attack}</div>",
-                                              "<div style='text-align:center'>{$mon->bonus_defense}</div>",
-                                              $mon->carried_items,
-                                              $mon->dice_rolls,
-                                              'buttons'
+                                                  div($mon->hit_points, array('style' => array('text-align:center'))),
+                                                  div($mon->bonus_attack, array('style' => 'text-align:center')),
+                                                  div($mon->bonus_defense, array('style' => 'text-align:center')),
+                                                  $mon->carried_items,
+                                                  div($mon->dice_rolls, array('id' => "DR_{$mon->id}",
+                                                                              'style' => array("float:left","margin-right:4px"))) .
+                                                  div('[R]', array("class" => "clickable","onclick" => "roll_dice({$mon->id})")) ,
+                                                  span('[K]', array("class" => "clickable",
+                                                                "onclick" => "suffer_damage({$mon->id})"
+                                                  ))
                                               );
                     }
+                    //log_message('debug',site_url('/ajax/suffer/12'));
+                    
                     echo $this->table->generate();
                 } else {
                     echo 'There are no monsters on this tile';

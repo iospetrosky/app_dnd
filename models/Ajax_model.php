@@ -128,7 +128,7 @@ class Ajax_model extends CI_Model {
         $last_tile_id = $this->db->insert_id();
         
         for ($n=0; $n<rand(0,$max_monsters);$n++) {
-            log_message('debug','### Adding a monsters to this room');
+            //log_message('debug','### Adding a monsters to this room');
             $data = array('id_dngtile' => $last_tile_id);
             $monster = $monsters[rand(0,count($monsters)-1)];
             $data['monster'] = $monster->mname;
@@ -141,22 +141,41 @@ class Ajax_model extends CI_Model {
                 // assign a weapon and adjust the attack bomus
                 $weapons = $this->get_weapons($monster->mlevel);
                 $wep = $weapons[rand(0,count($weapons)-1)];
-                $data['carried_items'][]= $wep->description;
-                // va inserito il concetto di arma magica che cambia il livello di bonus totale
-                $data['bonus_attack'] += rand(-($wep->max_bonus/2),$wep->max_bonus);
+                $bc = 0;
+                if (rand(1,5) == 1) { // chances the weapon is blessed/cursed
+                    if (rand(1,3) == 1) {// cursed
+                        $bc = rand(-3,-1);
+                        $data['carried_items'][]= sprintf("%s %+d",$wep->description, $bc);
+                    } else { // blessed
+                        $bc = rand(1,3);
+                        $data['carried_items'][]= sprintf("%s %+d",$wep->description, $bc);
+                    }
+                } else {
+                    $data['carried_items'][]= $wep->description;
+                }
+                $data['bonus_attack'] += rand(-($wep->max_bonus/2),$wep->max_bonus) + $bc;
                 // assign an armor
                 $armors = $this->get_armors($monster->mlevel);
                 $arm = $armors[rand(0,count($armors)-1)];
-                
-                // stesso discorso del magico per l'armatura
                 if ($arm->description != 'no_armor') {
-                    $data['carried_items'][] = $arm->description;
-                    $data['bonus_defense'] += rand(-($arm->max_bonus/2),$arm->max_bonus);
+                    $bc = 0;
+                    if (rand(1,5) == 1) { // chances the armour is blessed/cursed
+                        if (rand(1,3) == 1) {// cursed
+                            $bc = rand(-3,-1);
+                            $data['carried_items'][]= sprintf("%s %+d",$arm->description, $bc);
+                        } else { // blessed
+                            $bc = rand(1,3);
+                            $data['carried_items'][]= sprintf("%s %+d",$arm->description, $bc);
+                        }
+                    } else {
+                        $data['carried_items'][]= $arm->description;
+                    }
+                    $data['bonus_defense'] += rand(-($arm->max_bonus/2),$arm->max_bonus) + $bc;
                 }
                 
                 // maybe the monster is carrying some items?
                 if (rand(1,3)==1) {
-                    log_message('debug','### Adding items to this monster');
+                    //log_message('debug','### Adding items to this monster');
                     $items = $this->get_items($monster->mlevel);
                     $data['carried_items'][] = $items[rand(0,count($items)-1)]->description;
                 }
@@ -175,10 +194,11 @@ class Ajax_model extends CI_Model {
         $items = $this->get_inventory(99);
         $data = array('id_dngtile' => $last_tile_id, 'item' => array());
         for ($n=0; $n<rand(0,$max_items);$n++) {
-            log_message('debug','### Adding an item to this room');
+            //log_message('debug','### Adding an item to this room');
             $data['item'][] = $items[rand(0,count($items)-1)]->description;
         } // adding items
         if (count($data['item']) > 0) {
+            // aggiungere concetto di (magically) locked
             $data['item'] = 'Box with: ' . implode(", ",$data['item']);
             $this->db->insert('dngtile_items',$data);
         }
@@ -206,4 +226,55 @@ class Ajax_model extends CI_Model {
             //log_message('debug',$this->db->last_query());
         }
     }
+    
+    public function monster_suffer_damage($id,$hp) {
+        $monster = $this->db->select('hit_points, carried_items, id_dngtile, monster')
+                            ->from('dngtile_monsters')
+                            ->where('id',$id)
+                            ->get()->result()[0];
+        
+        $monster->hit_points -= $hp;
+        $this->db->trans_start();
+        if ($monster->hit_points < 1) {
+            log_message('debug','#### monster dead');
+            $this->db->where('id',$id)->delete('dngtile_monsters');
+            if ($monster->carried_items != 'no items carried') {
+                $items = explode(',',$monster->carried_items);
+                foreach($items as $it) {
+                    $data = array('id_dngtile' => $monster->id_dngtile, 'item' => $it);
+                    $this->db->insert('dngtile_items',$data);
+                    //log_message('debug',$this->db->last_query());
+                }
+                $data = array('id_dngtile' => $monster->id_dngtile, 'item' => "A {$monster->monster} corpse");
+                $this->db->insert('dngtile_items',$data);
+            }
+        } else {
+            $this->db->where('id',$id)->update('dngtile_monsters',$monster);
+        }
+        $this->db->trans_complete();            
+    }
+
+    public function delete_tile_item($id) {
+        $this->db->where('id',$id)->delete('dngtile_items');
+    }
+    
+    public function roll_monster_dice($id) {
+        $monster = $this->db->select("D.monster, D.bonus_attack, D.bonus_defense, M.kattack, M.num_attacks") 
+                            ->from('dngtile_monsters D')
+                            ->join('monsters M', 'D.monster = M.mname')
+                            ->where('D.id',$id)
+                            ->get()->result()[0];
+        $result = new stdClass();
+        $result->element = "DR_$id";
+        $atts = array();
+        $result->content = "I: " . rand(1,10); // initiative
+        for ($a=0; $a< $monster->num_attacks; $a++) {
+            $atts[] = rand(1,10) + $monster->bonus_attack;
+        }
+        $result->content .= " A: " . implode(', ',$atts); // attacks
+        $result->content .= " D: " . (string)(rand(1,10) + $monster->bonus_defense); // defense
+        
+        echo json_encode($result);
+    }
 }
+

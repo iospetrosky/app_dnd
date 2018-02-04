@@ -4,8 +4,11 @@ $imp = 'app_dnd/graphics/';
 ?>
 
 <script type="text/javascript">
+var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
+
+
 function load_monster_data(tile_id) {
-    var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
+    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
     if (isNaN(tile_id)) {
         return;
     }
@@ -23,7 +26,7 @@ function load_monster_data(tile_id) {
 }
 
 function load_tile_picture(tile_id) {
-    var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
+    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
     if (isNaN(tile_id)) {
         return;
     }
@@ -41,8 +44,10 @@ function load_tile_picture(tile_id) {
     }) // ajax 
 }
 
+
+
 function load_item_data(tile_id) {
-    var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
+    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
     if (isNaN(tile_id)) {
         return;
     }
@@ -57,11 +62,39 @@ function load_item_data(tile_id) {
             $('#xItems').html(data)
         }
     }) // ajax 
-
 }
 
+function suffer_damage(monster_rowid) {
+    var hp = window.prompt('How many hit points?')
+    if (hp == null || hp == "") return;
+    $.get(base_url + '/ajax/suffer/' + monster_rowid + '/' + hp, 
+            function() {
+                load_monster_data($("#tile_id").val())
+                load_item_data($("#tile_id").val())
+            }
+    )
+}
+
+function delete_item(item_id) {
+    $.get(base_url + '/ajax/delete_item/' + item_id,
+            function() {
+                load_item_data($("#tile_id").val())
+            }
+    )
+}
+
+function roll_dice(mon_id) {
+    $.get(base_url + '/ajax/roll_dice/' + mon_id,
+            function(jdata) {
+                jdata = JSON.parse(jdata)
+                $("#"+jdata.element).html(jdata.content);
+            }
+    )
+}
+
+
 function run_local() {
-    var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
+    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
     $("#tile_id").change(function() {
         if (isNaN($("#tile_id").val())) {
             $("#tile_picture").html('<?php  echo img(array("src"=>$imp."hourglass.png")) ;?>')
@@ -138,8 +171,6 @@ function run_local() {
         }) // ajax 
         
     })
-    
-    
 } // run_local    
     
 </script>
