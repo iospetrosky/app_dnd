@@ -1,9 +1,12 @@
-﻿.navbar {
+﻿/* this is included by top_menu and is the main style-sheet */
+.navbar {
 	border-bottom: 1px silver;
 	border-bottom-style: solid;
 	margin-bottom: 20px;
 }
-
+.scrollable {
+    overflow-y: scroll;
+} 
 .navbar-fixed_top {
 	top: 0px;
 	height: 60px;

@@ -1,0 +1,10 @@
+﻿.tile_selected {
+	border: 2px solid red;
+	padding: 2px;
+	margin-left: 2px;
+}
+.tile_unselected {
+    border: 2px solid WHITE;
+    padding: 2px;
+    margin-left: 2px;
+}

@@ -39,3 +39,37 @@ if ( ! function_exists('div')) {
     }
     
 }
+
+if ( ! function_exists('table')) {
+
+    function table($content, $attrib = false) {
+        return htag('TABLE',$content,$attrib);
+    }
+    
+}
+if ( ! function_exists('tr')) {
+
+    function tr($content, $attrib = false) {
+        return htag('TR',$content,$attrib);
+    }
+    
+}
+if ( ! function_exists('td')) {
+
+    function td($content, $attrib = false) {
+        return htag('TD',$content,$attrib);
+    }
+    
+}
+
+
+
+
+
+if ( ! function_exists('hr')) {
+
+    function hr() {
+        return '<hr/>';
+    }
+    
+}

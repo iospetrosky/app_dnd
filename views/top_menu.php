@@ -30,14 +30,18 @@ $(document).ready(function () {
         
         $(".navbar-button").click(function() {
             var id = ($(this).attr('id'))
-            $u = "<?php echo config_item('base_url'); ?>"
+            var u = "<?php echo config_item('base_url'); ?>"
             switch(id) {
                 case 'btn_home':
-                    window.location.replace($u + '/dnd.php')
+                    window.location.replace(u + '/dnd.php')
                     break
                 case 'btn_room':
-                    window.location.replace($u + '/dnd.php/room')
+                    window.location.replace(u + '/dnd.php/room')
                     break
+                case 'btn_map':
+                    window.location.replace(u + '/dnd.php/map')
+                    break
+                    
             }
         })
         

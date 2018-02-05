@@ -8,7 +8,6 @@ var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_pa
 
 
 function load_monster_data(tile_id) {
-    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
     if (isNaN(tile_id)) {
         return;
     }
@@ -26,7 +25,6 @@ function load_monster_data(tile_id) {
 }
 
 function load_tile_picture(tile_id) {
-    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
     if (isNaN(tile_id)) {
         return;
     }
@@ -47,7 +45,6 @@ function load_tile_picture(tile_id) {
 
 
 function load_item_data(tile_id) {
-    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
     if (isNaN(tile_id)) {
         return;
     }
@@ -87,14 +84,30 @@ function roll_dice(mon_id) {
     $.get(base_url + '/ajax/roll_dice/' + mon_id,
             function(jdata) {
                 jdata = JSON.parse(jdata)
-                $("#"+jdata.element).html(jdata.content);
+                $("#"+jdata.element).html(jdata.content)
             }
     )
 }
 
+function roll_all() {
+    $.get(base_url + '/ajax/roll_all/' + $("#tile_id").val(), 
+            function(data) {
+                load_monster_data(data)
+            }
+    )
+}
+    
 
 function run_local() {
-    //var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
+    var k = getCookie('last_tile')
+    if (!isNaN(k)) {
+        $("#tile_id").val(k)
+        load_monster_data(k)
+        load_tile_picture(k)
+        load_item_data(k)
+    }
+
+
     $("#tile_id").change(function() {
         if (isNaN($("#tile_id").val())) {
             $("#tile_picture").html('<?php  echo img(array("src"=>$imp."hourglass.png")) ;?>')
@@ -116,7 +129,13 @@ function run_local() {
 
                     }
                 }) // ajax 
-        } // IF 
+        } else {
+            setCookie('last_tile',$("#tile_id").val(),10)
+            load_monster_data($("#tile_id").val())
+            load_tile_picture($("#tile_id").val())
+            load_item_data($("#tile_id").val())
+            
+        }
     }) // tile_id processor   
     
     $("#btn_new_room").mouseup(function() {
@@ -142,6 +161,22 @@ function run_local() {
             load_item_data(params['tile_id'])
         }
     })// btn_room mouse up
+    
+    $("#btn_add_monsters").click(function() {
+        var params = make_param_list(['tile_id','max_monsters','max_level'])
+        if(isNaN(params['tile_id'])) return; // only the code of the tile
+        params['aktion'] = 'ADD_MONSTERS'
+        $.ajax({
+            url: base_url + '/ajax/room',
+            type: 'POST',
+            data: params,
+            success: function(data) {
+                var o = JSON.parse(data)
+                load_monster_data(o.tile_id)
+                alert('Added ' + o.monsters + ' monsters')
+            }
+        }) // ajax 
+    })
     
     $("#rotate_ccw").click(function() {
         var params = make_param_list(['tile_id'])    
@@ -206,30 +241,39 @@ function run_local() {
 </div>
 
 <div  class="boxed" style="float:left" id="xCtrlPanel">
-    <div class="form_item floating">
-        <div class="fixed_width_label">Tile code / ID</div>
-        <input class="fixed_w2" type="text" id="tile_id" >
-    </div>   
-    <div class="form_item">
-        <input type="button" value="Create/Load room" id="btn_new_room">
+    <div id="frmLine001">
+        <div class="form_item floating">
+            <div class="fixed_width_label">Tile code / ID</div>
+            <input class="fixed_w2" type="text" id="tile_id" >
+        </div>   
+        <div class="form_item">
+            <input type="button" value="Create/Load room" id="btn_new_room">
+        </div>  
+    </div>
+    
+    <div id="frmLine002">
+        <div class="form_item floating">
+            <div class="fixed_width_label">Max monsters</div>
+            <input class="fixed_w2" type="text" id="max_monsters" value="0">
+        </div>
+        <div class="form_item floating">
+            <div class="fixed_width_label">Max level</div>
+            <input class="fixed_w2" type="text" id="max_level" value="1" >
+        </div>
+        <div class="form_item">
+            <input type="button" value="Add monsters" id="btn_add_monsters">
+        </div>  
+        
     </div>  
     
-    <div class="form_item floating">
-        <div class="fixed_width_label">Max monsters</div>
-        <input class="fixed_w2" type="text" id="max_monsters" >
+    <div id="frmLine003">
+        <div class="form_item">
+            <div class="fixed_width_label">Max items</div>
+            <input class="fixed_w2" type="text" id="max_items" value="0">
+        </div>   
     </div>
-    <div class="form_item">
-        <div class="fixed_width_label">Max level</div>
-        <input class="fixed_w2" type="text" id="max_level" value="1" >
-    </div>
-      
-    <div class="form_item">
-        <div class="fixed_width_label">Max items</div>
-        <input class="fixed_w2" type="text" id="max_items" >
-    </div>   
-    
 </div>
 
-<div  class="boxed" style="clear:both; float:left" id="xMonsters">Monsters list goes here</div>
+<div class="boxed scrollable" style="clear:both; float:left" id="xMonsters">Monsters list goes here</div>
 
-<div  class="boxed" style="float:left" id="xItems">Items list goes here</div>
+<div class="boxed scrollable" style="float:left" id="xItems">Items list goes here</div>

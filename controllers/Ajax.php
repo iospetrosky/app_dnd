@@ -20,7 +20,13 @@ class Ajax extends CI_Controller {
     }
 
     public function roll_dice($id) {
-        $this->ajax_model->roll_monster_dice($id);
+        $result = $this->ajax_model->roll_monster_dice($id);
+        echo json_encode($result);
+    }
+    
+    public function roll_all($tile_id) {
+        $this->ajax_model->roll_all_dice($tile_id);
+        echo $tile_id;
     }
 
     public function room() {
@@ -30,6 +36,11 @@ class Ajax extends CI_Controller {
                 return;
             case 'GET_TILE_PIC':
                 $this->ajax_model->get_tile_pic($this->input->post('tile_id'));
+                return;
+            case 'ADD_MONSTERS':
+                $this->ajax_model->add_monsters_to_room($this->input->post('tile_id'),
+                                                        $this->input->post('max_monsters'),
+                                                        $this->input->post('max_level'));
                 return;
             case 'MAKE_NEW_ROOM':
                 $this->ajax_model->make_new_room($this->input->post('tile_id'), 
@@ -72,13 +83,15 @@ class Ajax extends CI_Controller {
                         'cell_start' => '<td class=s_table_cell_odd>',
                         'cell_alt_start' => '<td class=s_table_cell_even>',
                     ));
-                    $this->table->set_heading('Monster','Hit<br/>points','Att.<br/>bonus','Def.<br/>bonus','Items','Dice rolls','&nbsp;');
+                    $x = span('[R]',array("onclick" => "roll_all()", "class" => "clickable", "style" => "margin-left:4px"));
+                    
+                    $this->table->set_heading('Monster','Hit<br/>points','Att.<br/>bonus','Def.<br/>bonus','Items',"Dice rolls $x",'&nbsp;');
                     foreach($monsters as $mon) {
                         $this->table->add_row($mon->monster,
                                                   div($mon->hit_points, array('style' => array('text-align:center'))),
                                                   div($mon->bonus_attack, array('style' => 'text-align:center')),
                                                   div($mon->bonus_defense, array('style' => 'text-align:center')),
-                                                  $mon->carried_items,
+                                                  div($mon->carried_items, array('style' => 'width:120px')),
                                                   div($mon->dice_rolls, array('id' => "DR_{$mon->id}",
                                                                               'style' => array("float:left","margin-right:4px"))) .
                                                   div('[R]', array("class" => "clickable","onclick" => "roll_dice({$mon->id})")) ,
