@@ -63,7 +63,11 @@ if ($map) {
                 $o .= "</td>";
             else:
                 #it's not a Tile so it's a string already formatted with the coords of the cell on the map
-                $o .= "<td width=60 height=60 align=center><span class='clickable empty_tile' id='put_{$lines[$r][$c]}'>put<br/>here</span></td>";
+                $o .= "<td width=60 height=60 align=center class=empty_tile>" .
+                      span('put<br/>here',array('class'=>'clickable',
+                                                'id'=>"put_{$lines[$r][$c]}",
+                                                'onclick'=>"put_on_map('{$lines[$r][$c]}')")) .
+                      "</td>";
             endif;
             $c++;
         endwhile;
@@ -73,6 +77,12 @@ if ($map) {
     
     $o .= "</table>";
     echo $o;
+} else {
+    echo "<table cellpadding=0 cellspacing=0 border=0>";
+    echo "<td width=60 height=60 align=center class=empty_tile>" .
+            span('put<br/>here',array('class'=>'clickable','id'=>"put_0_0",'onclick'=>'put_on_map("0_0")')) .
+            "</td>";
+    echo "</tr></table>";
 }
 ?>
 </div>    

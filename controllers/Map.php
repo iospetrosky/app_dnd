@@ -21,6 +21,11 @@ class Map extends CI_Controller {
         $this->load->view('maps_content',$data);
     }
     
+    public function putonmap($y, $x, $id_dngtile) {
+        $this->map_model->put_on_map($y, $x, $id_dngtile, 
+                    $this->input->cookie('last_dungeon'), 
+                    $this->input->cookie('last_level'));
+    }
     
     
 	public function index()
