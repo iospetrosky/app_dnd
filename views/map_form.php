@@ -24,22 +24,30 @@ function load_map() {
 
     last_selected_tile = ''
     setCookie('last_tile','',-10) // dovrebbe scadere
-
+    $("#messages").text('Loading map... wait please');
     $.get(ajax_url + "/getmap/",
         function(data) {
             $("#soft_content").html(data)
+            $("#messages").text('Work completed');
         }
     )
 }
 
 function view_tile(id) {
-    setCookie('last_tile',id,10)
-    window.location.replace(base_url + "/room")
+    //alert($("[name='sel_function']").val())
+    if ($("[name='sel_function']").val() == 'put') {
+        setCookie('last_tile',id,10)
+        window.location.replace(base_url + "/room")
+    }
+    if ($("[name='sel_function']").val() == 'del') {
+        setCookie('last_tile',id,10)
+        $.get(ajax_url + "/remove/" + id).done(load_map())
+    }
 }
 
 function put_on_map(coords) {
     if (last_selected_tile == "") {
-        alert('Select a tile first')
+        ShowAlert('Select a tile first','Warning')
         return
     }
     
@@ -49,6 +57,7 @@ function put_on_map(coords) {
     //probabilmente obbligatorio perche' load_map non aspetta dati da GET 
     //e quindi viene eseguito al volo o usato come argomento
     //per generare i parametri. Usare .done()
+    $("#messages").text('Saving... wait please');
     $.get(ajax_url + "/" + params.join('/')).done(load_map())
 }
 
@@ -62,5 +71,10 @@ function run_local() {
 
 
 <h2 id="page_title"><?php echo "$dng_description ($dng_code) - Level: $dng_level" ;  ?></h2>
+<?php
+echo form_dropdown('sel_function',array('put'=>'Put on map','del'=>'Remove from map'),"id=sel_function");
+echo span(' --- messages ---', array('id'=>'messages'));
+?>
 <div id="soft_content"></div>
+
 

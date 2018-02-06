@@ -8,6 +8,7 @@ class Map extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('map_model');
+        $this->load->helper('form');
         $this->load->helper('html_gen');
     }
     
@@ -25,6 +26,10 @@ class Map extends CI_Controller {
         $this->map_model->put_on_map($y, $x, $id_dngtile, 
                     $this->input->cookie('last_dungeon'), 
                     $this->input->cookie('last_level'));
+    }
+    
+    public function remove($id_dngtile) {
+        $this->map_model->remove_from_map($id_dngtile);
     }
     
     

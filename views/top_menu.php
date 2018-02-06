@@ -40,6 +40,12 @@ $(document).ready(function () {
     $(".navbar-button").click(function() {
         var id = ($(this).attr('id'))
         var u = "<?php echo config_item('base_url'); ?>"
+
+        if (getCookie('last_dungeon') == '' || getCookie('last_level') == '' || getCookie('last_tileset') == 'Select') {
+            //window.location.replace('<?php echo config_item('base_url'); ?>/dnd.php')
+            return
+        }
+
         switch(id) {
             case 'btn_home':
                 window.location.replace(u + '/dnd.php')
@@ -70,7 +76,7 @@ $(document).ready(function () {
     	$("#myModal").fadeOut(200)
     })
 
-
+    
     run_local() // must be defined in the subsequent views
 
 }) 

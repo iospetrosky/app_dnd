@@ -66,7 +66,9 @@ class Map_model extends CI_Model {
         $this->db->insert('dng_maps');
     }
         
-    
+    public function remove_from_map ($tile) {
+        $this->db->where('id_dngtile', $tile)->delete('dng_maps');
+    }
 
 }
     
