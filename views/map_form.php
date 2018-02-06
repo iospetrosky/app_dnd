@@ -22,14 +22,19 @@ function select_me(item, id) {
 function load_map() {
     var params = new Object()
 
+    last_selected_tile = ''
+    setCookie('last_tile','',-10) // dovrebbe scadere
+
     $.get(ajax_url + "/getmap/",
         function(data) {
             $("#soft_content").html(data)
         }
     )
+}
 
-    last_selected_tile = ''
-    setCookie('last_tile','',-10) // dovrebbe scadere
+function view_tile(id) {
+    setCookie('last_tile',id,10)
+    window.location.replace(base_url + "/room")
 }
 
 function put_on_map(coords) {
@@ -41,7 +46,10 @@ function put_on_map(coords) {
     var parts = (coords.split('_')) // y , x
     var tile_id = last_selected_tile.split('_')[1]
     var params = ['putonmap', parts[0], parts[1], tile_id]
-    $.get(ajax_url + "/" + params.join('/'), load_map())
+    //probabilmente obbligatorio perche' load_map non aspetta dati da GET 
+    //e quindi viene eseguito al volo o usato come argomento
+    //per generare i parametri. Usare .done()
+    $.get(ajax_url + "/" + params.join('/')).done(load_map())
 }
 
 

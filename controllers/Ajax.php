@@ -108,8 +108,8 @@ class Ajax extends CI_Controller {
                 }
                 return;
             case 'ROTATE_TILE':
-                $this->ajax_model->rotate_tile($this->input->post('tile_id'), $this->input->post('rotation'));
-                echo $this->input->post('tile_id');
+                $result = $this->ajax_model->rotate_tile($this->input->post('tile_id'), $this->input->post('rotation'));
+                echo json_encode(array("tile_id" => $this->input->post('tile_id'), "result" => $result));
                 return;
         } // switch
         

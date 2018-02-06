@@ -9,5 +9,7 @@
     margin-left: 2px;
 }
 .empty_tile {
-    border: 1px solid GRAY;
+	__border: 1px dashed #C0C0C0;
+	__border-style: inset;
+	background-color: #CCCCFF;
 }

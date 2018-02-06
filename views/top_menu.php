@@ -8,6 +8,7 @@
 <?php
 echo link_tag('app_dnd/libraries/main.css');
 echo link_tag('app_dnd/libraries/forms.css');
+echo link_tag('app_dnd/libraries/modal.css');
 
 if (isset($css)) {
     foreach($css as $c) {
@@ -22,50 +23,84 @@ if (isset($css)) {
 <script src="<?php echo config_item('base_url'); ?>/app_dnd/libraries/cookies.js"></script>
 
 <script type="text/javascript">
-$(document).ready(function () {
 
-        $(".navbar-button").mouseenter(function() {
-            $(this).addClass('navbar-button-selected')
-        })
-        
-        $(".navbar-button").click(function() {
-            var id = ($(this).attr('id'))
-            var u = "<?php echo config_item('base_url'); ?>"
-            switch(id) {
-                case 'btn_home':
-                    window.location.replace(u + '/dnd.php')
-                    break
-                case 'btn_room':
-                    window.location.replace(u + '/dnd.php/room')
-                    break
-                case 'btn_map':
-                    window.location.replace(u + '/dnd.php/map')
-                    break
-                    
-            }
-        })
-        
-        $(".navbar-button").mouseleave(function() {
-            $(this).removeClass('navbar-button-selected')
-        })
-        
-        $('#if_content').on('load', function(){
-            this.style.height=this.contentDocument.body.scrollHeight + 20 +'px'
-        });
+function ShowAlert(atext, atitle = 'Warning', afooter = '') {
+    $(".modal-header h2").text(atitle)
+    $(".modal-body").html(atext)
+    $(".modal-header h3").text(afooter)
+    $("#myModal").fadeIn(200)
+}        
     
-        run_local(); // must be defined in the subsequent views
     
-    }) 
+$(document).ready(function () {
+    $(".navbar-button").mouseenter(function() {
+        $(this).addClass('navbar-button-selected')
+    })
+    
+    $(".navbar-button").click(function() {
+        var id = ($(this).attr('id'))
+        var u = "<?php echo config_item('base_url'); ?>"
+        switch(id) {
+            case 'btn_home':
+                window.location.replace(u + '/dnd.php')
+                break
+            case 'btn_room':
+                window.location.replace(u + '/dnd.php/room')
+                break
+            case 'btn_map':
+                window.location.replace(u + '/dnd.php/map')
+                break
+            case 'btn_tileset':
+                window.location.replace(u + '/dnd.php/tileset')
+                break
+                
+        }
+    })
+    
+    $(".navbar-button").mouseleave(function() {
+        $(this).removeClass('navbar-button-selected')
+    })
+    
+    $('#if_content').on('load', function(){
+        this.style.height=this.contentDocument.body.scrollHeight + 20 +'px'
+    });
+
+    
+    $(".close, .modal").click(function() {
+    	$("#myModal").fadeOut(200)
+    })
+
+
+    run_local() // must be defined in the subsequent views
+
+}) 
 </script>
 
 
 </head>
 
 <body>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>-</h2>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <h3>&nbsp;</h3>
+    </div>
+  </div>
+</div>
+    
 <div class="navbar navbar-fixed_top">
     <div class="navbar-button" id="btn_home">Home</div>
-    <div class="navbar-button" id="btn_map">Map</div>
     <div class="navbar-button" id="btn_room">Room</div>
+    <div class="navbar-button" id="btn_map">Map</div>
     <div class="navbar-button" id="btn_tileset">Tile set</div>
     <div class="navbar-button">Other</div>
 </div>

@@ -2,7 +2,7 @@
 import subprocess as sp
 import os.path as path
 
-xclass = "Map"
+xclass = "Tileset"
 
 f = "controllers/{}.php".format(xclass)
 if path.isfile(f):

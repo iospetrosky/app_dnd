@@ -225,12 +225,13 @@ class Ajax_model extends CI_Model {
     } // make_new_room
     
     public function rotate_tile($tile_id, $rotation) {
-        $query = $this->db->select('id,rotation')
-                          ->from('dng_tiles')
-                          ->where('id',$tile_id)
+        $query = $this->db->select('id_dngtile as id,rotation')
+                          ->from('v_unmapped_tiles')
+                          ->where('id_dngtile',$tile_id)
                           ->get();
         //log_message('debug',$this->db->last_query());
         if ($query->num_rows() > 0) {
+            // if the tile is already on a map it can't be rotated
             $tile = $query->result()[0];
             $tile->rotation += $rotation;
             if ($tile->rotation < 0) {
@@ -240,6 +241,9 @@ class Ajax_model extends CI_Model {
             }
             $this->db->where('id',$tile->id)->update('dng_tiles',$tile);
             //log_message('debug',$this->db->last_query());
+            return true;
+        } else {
+            return false;
         }
     }
     

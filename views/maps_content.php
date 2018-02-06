@@ -58,7 +58,7 @@ if ($map) {
                         'width' => 60, 'height' => 60,
                         'class' => 'clickable full_tile',
                         'ID' => "tile_{$tile->id_dngtile}",
-                        'onclick' => "select_me(this, {$tile->id_dngtile})")
+                        'onclick' => "view_tile({$tile->id_dngtile})")
                         );
                 $o .= "</td>";
             else:
@@ -66,7 +66,7 @@ if ($map) {
                 $o .= "<td width=60 height=60 align=center class=empty_tile>" .
                       span('put<br/>here',array('class'=>'clickable',
                                                 'id'=>"put_{$lines[$r][$c]}",
-                                                'onclick'=>"put_on_map('{$lines[$r][$c]}')")) .
+                                                'onclick'=>"put_on_map(\"{$lines[$r][$c]}\")")) .
                       "</td>";
             endif;
             $c++;

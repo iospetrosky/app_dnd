@@ -39,7 +39,7 @@ if ( ! function_exists('div')) {
     }
     
 }
-
+/*
 if ( ! function_exists('table')) {
 
     function table($content, $attrib = false) {
@@ -61,9 +61,16 @@ if ( ! function_exists('td')) {
     }
     
 }
+*/
 
 
+if ( ! function_exists('br')) {
 
+    function br() {
+        return '<br/>';
+    }
+    
+}
 
 
 if ( ! function_exists('hr')) {

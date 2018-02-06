@@ -100,7 +100,7 @@ function roll_all() {
 
 function run_local() {
     var k = getCookie('last_tile')
-    if (!isNaN(k)) {
+    if (typeof(k) == 'number') {
         $("#tile_id").val(k)
         load_monster_data(k)
         load_tile_picture(k)
@@ -173,7 +173,7 @@ function run_local() {
             success: function(data) {
                 var o = JSON.parse(data)
                 load_monster_data(o.tile_id)
-                alert('Added ' + o.monsters + ' monsters')
+                ShowAlert('Added ' + o.monsters + ' monsters','Success')
             }
         }) // ajax 
     })
@@ -186,8 +186,13 @@ function run_local() {
             url: base_url + '/ajax/room',
             type: 'POST',
             data: params,
-            success: function(data) {
-                load_tile_picture(data)
+            success: function(jdata) {
+                jdata = JSON.parse(jdata)
+                if (jdata.result == false) {
+                    ShowAlert("This tile can't be rotated","Error")
+                } else {
+                    load_tile_picture(jdata.tile_id)
+                }
             }
         }) // ajax 
         
@@ -200,8 +205,13 @@ function run_local() {
             url: base_url + '/ajax/room',
             type: 'POST',
             data: params,
-            success: function(data) {
-                load_tile_picture(data)
+            success: function(jdata) {
+                jdata = JSON.parse(jdata)
+                if (jdata.result == false) {
+                    ShowAlert("This tile can't be rotated","Error")
+                } else {
+                    load_tile_picture(jdata.tile_id)
+                }
             }
         }) // ajax 
         
