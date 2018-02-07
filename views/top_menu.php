@@ -29,8 +29,22 @@ function ShowAlert(atext, atitle = 'Warning', afooter = '') {
     $(".modal-body").html(atext)
     $(".modal-header h3").text(afooter)
     $("#myModal").fadeIn(200)
-}        
-    
+}
+
+var works = 0
+
+function HourGlass(m) {
+    if (m) {
+        works = works +1
+        $("#WIP").fadeIn(1)
+    } else {
+        works = works - 1
+        if (works <= 0) {
+            works = 0
+            $("#WIP").fadeOut(1)
+        }
+    }
+}    
     
 $(document).ready(function () {
     if (getCookie('last_dungeon') == '' || getCookie('last_level') == '' || getCookie('last_tileset') == 'Select')  {

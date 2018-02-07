@@ -11,7 +11,10 @@ var ajax_url = "<?php echo $ajax; ?>"
 
 function run_local() {
 
-
+    $(".tile").click(function() {
+        setCookie('last_tile',$(this).attr('id'),10)
+        window.location.replace(base_url + "/room")
+    })
             
 } // run_local    
     
@@ -27,7 +30,7 @@ function run_local() {
                     'width' => '60',
                     'height'=> '60',
                     'id'    => $img->tcode,
-                    'class' => 'clickable',
+                    'class' => 'clickable tile',
                     'style' => 'margin-right: 2px; margin-bottom: 2px'));
         $x++;
         if ($x > 12) {
