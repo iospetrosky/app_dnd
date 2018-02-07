@@ -13,7 +13,7 @@ class Room_model extends CI_Model {
                         ->from('dungeons')
                         ->where('dcode',$dng)
                         ->get();
-        if($dd) {
+        if($dd->num_rows() > 0) {
             return $dd->result()[0]->dname;
         } else {
             return 'Unknown dungeon';

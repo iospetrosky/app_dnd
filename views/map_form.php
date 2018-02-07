@@ -9,7 +9,6 @@ var ajax_url = "<?php echo $ajax; ?>"
 var last_selected_tile = ''
 
 function select_me(item, id) {
-    //alert($(item).attr('id'))
     if (last_selected_tile != "") {
         $("#"+last_selected_tile).removeClass('tile_selected').addClass('tile_unselected')
     }
@@ -34,14 +33,13 @@ function load_map() {
 }
 
 function view_tile(id) {
-    //alert($("[name='sel_function']").val())
     if ($("[name='sel_function']").val() == 'put') {
         setCookie('last_tile',id,10)
         window.location.replace(base_url + "/room")
     }
     if ($("[name='sel_function']").val() == 'del') {
         setCookie('last_tile',id,10)
-        $.get(ajax_url + "/remove/" + id).done(load_map())
+        $.get(ajax_url + "/remove/" + id, function() {load_map()})
     }
 }
 
@@ -54,11 +52,8 @@ function put_on_map(coords) {
     var parts = (coords.split('_')) // y , x
     var tile_id = last_selected_tile.split('_')[1]
     var params = ['putonmap', parts[0], parts[1], tile_id]
-    //probabilmente obbligatorio perche' load_map non aspetta dati da GET 
-    //e quindi viene eseguito al volo o usato come argomento
-    //per generare i parametri. Usare .done()
     $("#messages").text('Saving... wait please');
-    $.get(ajax_url + "/" + params.join('/')).done(load_map())
+    $.get(ajax_url + "/" + params.join('/'), function() {load_map()})
 }
 
 
