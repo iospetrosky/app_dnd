@@ -33,6 +33,18 @@ function ShowAlert(atext, atitle = 'Warning', afooter = '') {
     
     
 $(document).ready(function () {
+    if (getCookie('last_dungeon') == '' || getCookie('last_level') == '' || getCookie('last_tileset') == 'Select')  {
+        if ($("#main_form").length == 0) {
+            ShowAlert("Basic parameters of the game are not set. Go back to the main page","Error")
+            setTimeout(function() {
+                window.location.replace('<?php echo config_item('base_url'); ?>/dnd.php')
+            },5000)
+        //return
+        }
+
+    }
+
+
     $(".navbar-button").mouseenter(function() {
         $(this).addClass('navbar-button-selected')
     })
@@ -41,10 +53,6 @@ $(document).ready(function () {
         var id = ($(this).attr('id'))
         var u = "<?php echo config_item('base_url'); ?>"
 
-        if (getCookie('last_dungeon') == '' || getCookie('last_level') == '' || getCookie('last_tileset') == 'Select') {
-            //window.location.replace('<?php echo config_item('base_url'); ?>/dnd.php')
-            return
-        }
 
         switch(id) {
             case 'btn_home':
