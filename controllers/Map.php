@@ -1,4 +1,5 @@
 
+modificato a casso solo per vedere che funziona
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -48,3 +49,5 @@ class Map extends CI_Controller {
 	}
 }
     
+
+minkia che casino
