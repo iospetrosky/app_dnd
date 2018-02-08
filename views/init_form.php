@@ -27,14 +27,15 @@ function run_local() {
                 HourGlass(false)
                 var o = JSON.parse(data)
                 if (o.result == 'OK') {
-                    ShowAlert('Dungeon created','Success',data)
-                } else {
-                    ShowAlert('Something bad happened','Error')
-                }
+                    ShowAlert('Dungeon created','Success')
+                } 
             }
-        ) // get
+        ).fail(function() {
+            ShowAlert('Something bad happened. Probably there is already a dungeon with that name','Error')
+        }) // get
     }) // btn_new_dungeon.click
-} // run_local    
+} // run_local 
+
     
 </script>
 

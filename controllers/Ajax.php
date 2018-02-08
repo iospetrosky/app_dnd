@@ -39,6 +39,7 @@ class Ajax extends CI_Controller {
                 return;
             case 'ADD_MONSTERS':
                 $this->ajax_model->add_monsters_to_room($this->input->post('tile_id'),
+                                                        $this->input->post('min_monsters'),
                                                         $this->input->post('max_monsters'),
                                                         $this->input->post('max_level'));
                 return;
@@ -47,6 +48,7 @@ class Ajax extends CI_Controller {
                                                  get_cookie('last_tileset'),
                                                  get_cookie('last_dungeon'),
                                                  get_cookie('last_level'),
+                                                 $this->input->post('min_monsters'),
                                                  $this->input->post('max_monsters'),
                                                  $this->input->post('max_level'),
                                                  $this->input->post('max_items')

@@ -48,7 +48,8 @@ class Ajax_model extends CI_Model {
         $query = $this->db->select('id, item')
                           ->from('dngtile_items')
                           ->where('id_dngtile',$tile_id)
-                           ->get();
+                          ->order_by('item asc')
+                          ->get();
         //log_message('debug',$this->db->last_query());
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -105,6 +106,7 @@ class Ajax_model extends CI_Model {
                         ->from('inventory')
                         ->where_in('item_type',array('P','S','X'))
                         ->where('mnst_level <=', $level)
+                        ->order_by('description ASC')
                         ->get();
         return $data->result();
     }
@@ -181,9 +183,9 @@ class Ajax_model extends CI_Model {
         return $data;
     }
 
-    public function add_monsters_to_room($tile_id, $max_monsters, $max_level) {
+    public function add_monsters_to_room($tile_id, $min_monsters, $max_monsters, $max_level) {
         $this->db->trans_start();
-        for ($n=0; $n<rand(0,$max_monsters);$n++) {
+        for ($n=0; $n<rand($min_monsters,$max_monsters);$n++) {
             //log_message('debug','### Adding a monsters to this room');
             $data = $this->generate_new_monster_data($max_level);
             $data['id_dngtile'] = $tile_id;
@@ -193,14 +195,13 @@ class Ajax_model extends CI_Model {
         echo json_encode(array('tile_id' => $tile_id, 'monsters' => $n));
     }
     
-    public function make_new_room($tile_id, $tile_set, $dungeon, $level, $max_monsters, $max_level, $max_items) {
-        
+    public function make_new_room($tile_id, $tile_set, $dungeon, $level, $min_monsters, $max_monsters, $max_level, $max_items) {
         $this->db->trans_start();
         $data = array('dcode' => $dungeon, 'tcode' => $tile_id);
         $this->db->insert('dng_tiles',$data);
         $last_tile_id = $this->db->insert_id();
         
-        for ($n=0; $n<rand(0,$max_monsters);$n++) {
+        for ($n=0; $n<rand($min_monsters,$max_monsters);$n++) {
             //log_message('debug','### Adding a monsters to this room');
             $data = $this->generate_new_monster_data($max_level);
             $data['id_dngtile'] = $last_tile_id;
@@ -221,7 +222,7 @@ class Ajax_model extends CI_Model {
         
         $this->db->trans_complete();
         echo json_encode(array('tile_id' => $last_tile_id));    
-    
+     
     } // make_new_room
     
     public function rotate_tile($tile_id, $rotation) {
@@ -261,9 +262,11 @@ class Ajax_model extends CI_Model {
             if ($monster->carried_items != 'no items carried') {
                 $items = explode(',',$monster->carried_items);
                 foreach($items as $it) {
-                    $data = array('id_dngtile' => $monster->id_dngtile, 'item' => $it);
-                    $this->db->insert('dngtile_items',$data);
-                    //log_message('debug',$this->db->last_query());
+                    $it = trim($it);
+                    if ($it != 'no armor') {
+                        $data = array('id_dngtile' => $monster->id_dngtile, 'item' => $it);
+                        $this->db->insert('dngtile_items',$data);
+                    }
                 }
             }
             $data = array('id_dngtile' => $monster->id_dngtile, 'item' => "A {$monster->monster} corpse");

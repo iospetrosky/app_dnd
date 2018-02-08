@@ -129,6 +129,7 @@ function load_tile_image() {
             $("#tile_picture").html(o.png)  
             $("#max_items").val(o.max_items)
             $("#max_monsters").val(o.max_monsters)
+            $("#min_monsters").val(0)
             $("#xMonsters").html("")
             $("#xItems").html("")
             HourGlass(false)
@@ -162,7 +163,7 @@ function run_local() {
     }) // tile_id processor   
     
     $("#btn_new_room").mouseup(function() {
-        var params = make_param_list(['tile_id','max_monsters','max_items','max_level'])
+        var params = make_param_list(['tile_id','min_monsters', 'max_monsters','max_items','max_level'])
         if(isNaN(params['tile_id'])) {
             // create a new room
             params['aktion'] = 'MAKE_NEW_ROOM'
@@ -188,7 +189,7 @@ function run_local() {
     })// btn_room mouse up
     
     $("#btn_add_monsters").click(function() {
-        var params = make_param_list(['tile_id','max_monsters','max_level'])
+        var params = make_param_list(['tile_id','min_monsters','max_monsters','max_level'])
         if(isNaN(params['tile_id'])) return; // only the code of the tile
         params['aktion'] = 'ADD_MONSTERS'
         HourGlass(true)
@@ -295,8 +296,9 @@ function run_local() {
     
     <div id="frmLine002">
         <div class="form_item floating">
-            <div class="fixed_width_label">Max monsters</div>
-            <input class="fixed_w2" type="text" id="max_monsters" value="0">
+            <div class="fixed_width_label">Min/Max monsters</div>
+            <input class="fixed_w3" type="text" id="min_monsters" value="0"> /
+            <input class="fixed_w3" type="text" id="max_monsters" value="0">
         </div>
         <div class="form_item floating">
             <div class="fixed_width_label">Max level</div>
@@ -310,14 +312,13 @@ function run_local() {
     <div id="frmLine003">
         <div class="form_item">
             <div class="fixed_width_label">Max items</div>
-            <input class="fixed_w2" type="text" id="max_items" value="0">
+            <input class="fixed_w3" type="text" id="max_items" value="0">
         </div>   
     </div>
     
     <div id="frmLine004">
         <?php echo img(array(
                         'src'   => $imp . "hourglass.png",
-//                        'style' => 'visibility: hidden',
                         'id'    => 'WIP'
                       ));
         ?>
