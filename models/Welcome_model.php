@@ -13,5 +13,19 @@ class Welcome_model extends CI_Model {
         return $query->result();
     }
 
+    public function create_new_dungeon($dcode, $dtext) {
+        $ret = new stdClass();
+        $this->db->set('dcode',$dcode)
+                 ->set('dname',$dtext)
+                 ->insert('dungeons');
+        if ($this->db->affected_rows() == 1) {
+            $ret->id = $id = $this->db->insert_id();
+            $ret->result = 'OK';
+        } else {
+            $ret->result = 'ERR';
+        }
+        
+        return $ret;
+    }
 
 }

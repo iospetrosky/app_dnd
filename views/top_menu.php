@@ -4,7 +4,6 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>DND Game home</title>
-
 <?php
 echo link_tag('app_dnd/libraries/main.css');
 echo link_tag('app_dnd/libraries/forms.css');
@@ -27,7 +26,7 @@ if (isset($css)) {
 function ShowAlert(atext, atitle = 'Warning', afooter = '') {
     $(".modal-header h2").text(atitle)
     $(".modal-body").html(atext)
-    $(".modal-header h3").text(afooter)
+    $(".modal-footer h3").text(afooter)
     $("#myModal").fadeIn(200)
 }
 

@@ -18,4 +18,9 @@ class Welcome extends CI_Controller {
 		$this->load->view('top_menu');
 		$this->load->view('init_form',$data);
 	}
+	
+	public function newdungeon($dname,$text) {
+	    $j = $this->welcome_model->create_new_dungeon($dname,urldecode($text));
+	    echo json_encode($j);
+	}
 }

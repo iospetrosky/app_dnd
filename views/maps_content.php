@@ -1,4 +1,4 @@
-<div id="unmapped_tiles">
+<div id="unmapped_tiles" style="margin-bottom: 5px;">
 <?php
 if ($unmapped) {
     foreach($unmapped as $tile) {
@@ -14,17 +14,9 @@ if ($unmapped) {
 ?>
 </div>
 
-
 <div id="dMap">
 <?php
 if ($map) {
-    /*
-    print_r($map);
-    echo hr();
-    print_r($limits);
-    echo hr();
-    */
-    
     //creo la griglia vuota
     $y = $limits->min_y;
     $lines = array();
