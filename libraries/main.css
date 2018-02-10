@@ -1,36 +1,85 @@
 ﻿/* this is included by top_menu and is the main style-sheet */
-.navbar {
-	border-bottom: 1px silver;
-	border-bottom-style: solid;
-	margin-bottom: 20px;
+.nav_bar {
+	height: 100px;
+	width: 800px;
 }
+
+.nav_block:nth-of-type(1)	{
+	float:left;
+	__width: 400px;
+}
+.nav_block:nth-of-type(2)	{
+	float:right;
+	__width: 200px;
+}
+
+.nav_opener {
+	width: 45px;
+	height: 45px;
+	cursor: pointer;
+	z-index: 10;
+	__border: 1px solid black;
+}
+
+.nav_menu  {
+	font-family: "Fancy menu", Arial, sans-serif;
+	font-size: 18px;
+	__margin-left: -20px;
+	__margin-top: 5px;
+	display: flex;
+	z-index: 1;
+}
+.menu_button {
+	padding: 6px;
+	border: 1px solid black;
+	margin-left: 15px;
+	cursor: pointer;
+}
+
+.menu_button:hover {
+	background-color:#66FF99;
+}
+.nav_opener:nth-of-type(1) {
+	float: left;
+}
+.nav_opener:nth-of-type(2) {
+	float: right;
+	margin-left: 15px;
+}
+
+.nav_menu:nth-of-type(1) {
+	float: left;
+}
+.nav_menu:nth-of-type(2) {
+	float: right;
+}
+
+.nav_block li {
+	float: left;
+	margin-left: 30px;
+	margin-right: 15px;
+	list-style-image: url('/igniter/app_dnd/graphics/ico_sword.png');
+	border: 1px solid black;
+}
+
+.button_text {
+	float:left; 
+	padding-top: 5px; 
+	padding-left: 5px;
+}
+
+.out_of_screen {
+	position: fixed;
+	top: -500px;
+}
+
+
 .scrollable {
     overflow-y: scroll;
 } 
-.navbar-fixed_top {
-	top: 0px;
-	height: 60px;
-}
-.navbar-left {
-	top: 80px;
-	width: 80px;
-	background-color: #FF99FF;
-}
-.navbar-button {
-	float: left;
-	cursor: pointer;
-	width: 90px;
-	height: 30px;
-	padding-top:12px;
-	text-align:center;
-	border-radius: 4px;
-	box-shadow: 4px 4px;
-	margin-right:5px;
-	background-color:#99FFCC
-}
-.navbar-button-selected {
-	background-color:#66FF99;
-}
+
+
+
 body {
 	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 	font-size: 14px;

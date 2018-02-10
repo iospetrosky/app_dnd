@@ -4,6 +4,15 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>DND Game home</title>
+<style>
+@font-face {
+    font-family: "Fancy menu";
+    src: url('<?php
+        // this must be generated
+        echo config_item('base_url') . "/app_dnd/libraries/menu_font.ttf";
+    ?>');
+}
+</style>
 <?php
 echo link_tag('app_dnd/libraries/main.css');
 echo link_tag('app_dnd/libraries/forms.css');
@@ -45,6 +54,12 @@ function HourGlass(m) {
 }    
     
 $(document).ready(function () {
+    //$('#nav2').addClass("out_of_screen")
+
+    $(".close, .modal").click(function() {
+        $("#myModal").fadeOut(200)
+    })
+
     if (getCookie('last_dungeon') == '' || getCookie('last_level') == '' || getCookie('last_tileset') == 'Select')  {
         if ($("#main_form").length == 0) {
             ShowAlert("Basic parameters of the game are not set. Go back to the main page","Error")
@@ -53,50 +68,56 @@ $(document).ready(function () {
             },5000)
         //return
         }
-
     }
 
+    var visible_menu = getCookie('visible_menu','none')
 
-    $(".navbar-button").mouseenter(function() {
-        $(this).addClass('navbar-button-selected')
-    })
-    
-    $(".navbar-button").click(function() {
+    $(".nav_opener").click(function() {
         var id = ($(this).attr('id'))
-        var u = "<?php echo config_item('base_url'); ?>"
-
-
         switch(id) {
-            case 'btn_home':
-                window.location.replace(u + '/dnd.php')
+            case 'menu1':
+                $("#nav2").animate({opacity:0},1000, function(){
+                    $('#nav2').addClass("out_of_screen")
+                    $('#nav1').removeClass("out_of_screen")
+                    $("#nav1").animate({opacity:1},1000)
+                })
                 break
-            case 'btn_room':
-                window.location.replace(u + '/dnd.php/room')
+            case 'menu2':
+                $("#nav1").animate({opacity:0},1000, function() {
+                    $('#nav1').addClass("out_of_screen")
+                    $('#nav2').removeClass("out_of_screen")
+                    $("#nav2").animate({opacity:1},1000)
+                })
                 break
-            case 'btn_map':
-                window.location.replace(u + '/dnd.php/map')
-                break
-            case 'btn_tileset':
-                window.location.replace(u + '/dnd.php/tileset')
-                break
-                
         }
     })
-    
-    $(".navbar-button").mouseleave(function() {
-        $(this).removeClass('navbar-button-selected')
+
+    $(".menu_button").click(function(){
+        var index = $( ".menu_button" ).index( this )
+        var u = "<?php echo config_item('base_url'); ?>"
+
+        switch(index){
+            case 0:
+                window.location.replace(u + '/dnd.php')
+                break
+            case 1:
+                window.location.replace(u + '/dnd.php/room')
+                break
+            case 2:
+                window.location.replace(u + '/dnd.php/map')
+                break
+            case 3:
+                window.location.replace(u + '/dnd.php/tileset')
+                break
+        }
     })
-    
+
+    var index = $( "div" ).index( this );
+
     $('#if_content').on('load', function(){
         this.style.height=this.contentDocument.body.scrollHeight + 20 +'px'
     });
 
-    
-    $(".close, .modal").click(function() {
-    	$("#myModal").fadeOut(200)
-    })
-
-    
     run_local() // must be defined in the subsequent views
 
 }) 
@@ -122,7 +143,69 @@ $(document).ready(function () {
     </div>
   </div>
 </div>
-    
+
+<!-- new navbar -->
+    <div class="nav_bar">
+        <div class="nav_block">
+            <div class="nav_opener" id="menu1">
+                <?php echo img(array(
+                    'src' => 'app_dnd/graphics/menu.png',
+                    'width' => 45, 'height' => 45,
+                    )); ?>
+            </div>
+            <div class="nav_menu" id="nav1">
+                <?php
+                    $links = [
+                        ['Home','ico_sword.png'],
+                        ['Room','ico_sword.png'],
+                        ['Map','ico_sword.png'],
+                        ['Tile set','ico_sword.png'],
+                        ['Other...','ico_sword.png'],
+                    ];
+                    foreach ($links as $lnk) {
+                        echo "<div class='menu_button' name='{$lnk[0]}'>";
+                        echo img(array(
+                            'src' => 'app_dnd/graphics/' . $lnk[1],
+                            'width' => 32, 'height' => 32,
+                            'style' => 'float: left'
+                        ));
+                        echo "<div class='button_text'>{$lnk[0]}</div>";
+                        echo "</div>";
+                    }
+
+                ?>
+            </div>
+        </div>
+
+        <div class="nav_block">
+            <div class="nav_menu out_of_screen" id="nav2">
+                <?php
+                    $links = [
+                        ['Pers. info','ico_sword.png'],
+                        ['User info','ico_sword.png'],
+                    ];
+                    foreach ($links as $lnk) {
+                        echo "<div class='menu_button'  name='{$lnk[0]}'>";
+                        echo img(array(
+                            'src' => 'app_dnd/graphics/' . $lnk[1],
+                            'width' => 32, 'height' => 32,
+                            'style' => 'float: left'
+                        ));
+                        echo "<div class='button_text'>{$lnk[0]}</div>";
+                        echo "</div>";
+                    }
+
+                ?>
+            </div>
+            <div class="nav_opener" id="menu2"><?php echo img(array(
+                    'src' => 'app_dnd/graphics/menu.png',
+                    'width' => 45, 'height' => 45,
+                    )); ?>
+            </div>
+        </div>
+    </div>
+
+<!-- old navbar     
 <div class="navbar navbar-fixed_top">
     <div class="navbar-button" id="btn_home">Home</div>
     <div class="navbar-button" id="btn_room">Room</div>
@@ -130,7 +213,7 @@ $(document).ready(function () {
     <div class="navbar-button" id="btn_tileset">Tile set</div>
     <div class="navbar-button">Other</div>
 </div>
-
+-->
 <?php 
 //echo APPPATH; 
 ?>
