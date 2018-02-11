@@ -1,16 +1,14 @@
 ﻿/* this is included by top_menu and is the main style-sheet */
 .nav_bar {
-	height: 100px;
+	height: 60px;
 	width: 800px;
 }
 
 .nav_block:nth-of-type(1)	{
 	float:left;
-	__width: 400px;
 }
 .nav_block:nth-of-type(2)	{
 	float:right;
-	__width: 200px;
 }
 
 .nav_opener {
@@ -18,14 +16,11 @@
 	height: 45px;
 	cursor: pointer;
 	z-index: 10;
-	__border: 1px solid black;
 }
 
 .nav_menu  {
 	font-family: "Fancy menu", Arial, sans-serif;
 	font-size: 18px;
-	__margin-left: -20px;
-	__margin-top: 5px;
 	display: flex;
 	z-index: 1;
 }

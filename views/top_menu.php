@@ -4,6 +4,7 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <title>DND Game home</title>
+<link rel="icon" href="<?php echo config_item('base_url');?>/app_dnd/favicon.ico" type="image/ico">
 <style>
 @font-face {
     font-family: "Fancy menu";
@@ -93,7 +94,7 @@ $(document).ready(function () {
     })
 
     $(".menu_button").click(function(){
-        var index = $( ".menu_button" ).index( this )
+        var index = $(".menu_button").index(this)
         var u = "<?php echo config_item('base_url'); ?>"
 
         switch(index){
@@ -112,10 +113,8 @@ $(document).ready(function () {
         }
     })
 
-    var index = $( "div" ).index( this );
-
     $('#if_content').on('load', function(){
-        this.style.height=this.contentDocument.body.scrollHeight + 20 +'px'
+        this.style.height = this.contentDocument.body.scrollHeight + 20 + 'px'
     });
 
     run_local() // must be defined in the subsequent views
@@ -156,11 +155,11 @@ $(document).ready(function () {
             <div class="nav_menu" id="nav1">
                 <?php
                     $links = [
-                        ['Home','ico_sword.png'],
+                        ['Home','ico_home.png'],
                         ['Room','ico_sword.png'],
-                        ['Map','ico_sword.png'],
-                        ['Tile set','ico_sword.png'],
-                        ['Other...','ico_sword.png'],
+                        ['Map','ico_map.png'],
+                        ['Tile set','ico_tiles.png'],
+                        //['Other...','ico_sword.png'],
                     ];
                     foreach ($links as $lnk) {
                         echo "<div class='menu_button' name='{$lnk[0]}'>";
@@ -205,15 +204,6 @@ $(document).ready(function () {
         </div>
     </div>
 
-<!-- old navbar     
-<div class="navbar navbar-fixed_top">
-    <div class="navbar-button" id="btn_home">Home</div>
-    <div class="navbar-button" id="btn_room">Room</div>
-    <div class="navbar-button" id="btn_map">Map</div>
-    <div class="navbar-button" id="btn_tileset">Tile set</div>
-    <div class="navbar-button">Other</div>
-</div>
--->
 <?php 
 //echo APPPATH; 
 ?>

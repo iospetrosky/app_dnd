@@ -1,39 +1,18 @@
 ﻿/* this is included by top_menu */
 .form_item {
-    __border: 1px solid black;
 	padding-top: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
 	margin-right: 5px;
 	margin-bottom: 5px;
 	height: 25px;
+	display: flex;
 }
 
 .framed {
     border: 1px solid black;
 }
 
-.floating {
-    float: left;
-}
-
-.fixed_width_label {
-	width: 120px;
-	float: left;
-}
-
-.form_newline {
-    clear: both;
-}
-.fixed_w1 {
-	width: 150px;
-}
-.fixed_w2 {
-	width: 60px;
-}
-.fixed_w3 {
-	width: 30px;
-}
 input {
 	padding-left: 5px;
 }

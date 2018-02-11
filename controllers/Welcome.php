@@ -13,9 +13,9 @@ class Welcome extends CI_Controller {
 	{
 	    // load all the data needed in the views in variables to be passed as second parameter
 	    $data['tile_sets'] = $this->welcome_model->get_tile_sets(); 
-	    
+	    $spec['css'] = array('init_form.css');
 	    // volendo si puo' passare a top_menu l'elenco dei CSS da caricare
-		$this->load->view('top_menu');
+		$this->load->view('top_menu',$spec);
 		$this->load->view('init_form',$data);
 	}
 	
