@@ -191,7 +191,7 @@ function run_local() {
     })// btn_room mouse up
     
     $("#btn_add_monsters").click(function() {
-        var params = make_param_list(['tile_id','min_monsters','max_monsters','max_level'])
+        var params = make_param_list(['tile_id','min_monsters','max_monsters','min_level','max_level'])
         if(isNaN(params['tile_id'])) return; // only the code of the tile
         params['aktion'] = 'ADD_MONSTERS'
         HourGlass(true)
@@ -302,8 +302,9 @@ function run_local() {
             <input style="width: 30px" type="text" id="min_monsters" value="0"> /
             <input style="width: 30px" type="text" id="max_monsters" value="0">
         </div>
-        <div class="col3">Max level</div>
+        <div class="col3">Max/Min level</div>
         <div class="col4">
+            <input style="width: 30px" type="text" id="min_level" value="1" > /
             <input style="width: 30px" type="text" id="max_level" value="1" >
         </div>
         <div class="col5">

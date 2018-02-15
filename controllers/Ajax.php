@@ -41,6 +41,7 @@ class Ajax extends CI_Controller {
                 $this->ajax_model->add_monsters_to_room($this->input->post('tile_id'),
                                                         $this->input->post('min_monsters'),
                                                         $this->input->post('max_monsters'),
+                                                        $this->input->post('min_level'),
                                                         $this->input->post('max_level'));
                 return;
             case 'MAKE_NEW_ROOM':
@@ -95,7 +96,8 @@ class Ajax extends CI_Controller {
                                                   div($mon->bonus_defense, array('style' => 'text-align:center')),
                                                   div($mon->carried_items, array('style' => 'width:120px')),
                                                   div($mon->dice_rolls, array('id' => "DR_{$mon->id}",
-                                                                              'style' => array("float:left","margin-right:4px"))) .
+                                                                              //'style' => array("float:left","margin-right:4px"),
+                                                                              'class' => 'dice_rolls_area')) .
                                                   div('[R]', array("class" => "clickable","onclick" => "roll_dice({$mon->id})")) ,
                                                   span('[K]', array("class" => "clickable",
                                                                 "onclick" => "suffer_damage({$mon->id})"

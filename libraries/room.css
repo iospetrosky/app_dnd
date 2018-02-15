@@ -48,3 +48,11 @@
 	background-color: #CCCCFF;
 	font-weight: bold;
 }    
+.dice_rolls_area {
+	float: left;
+	margin-right: 4px;
+}
+.dice_rolls_area div {
+	float: left;
+	width: 30px;
+}

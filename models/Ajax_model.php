@@ -75,10 +75,11 @@ class Ajax_model extends CI_Model {
         echo json_encode(array('png' => $png));
     }
     
-    private function get_monsters($max_level) {
+    private function get_monsters($min_level, $max_level) {
         $data = $this->db->select('mname, mlevel, kattack')
                     ->from('monsters')
-                    ->where('mlevel <=',$max_level)
+                    //->where('mlevel <=',$max_level)
+                    ->where("mlevel between $min_level and $max_level")
                     ->get();
         return $data->result();
     }
@@ -119,8 +120,8 @@ class Ajax_model extends CI_Model {
         return $data->result();
     }
 
-    private function generate_new_monster_data($max_level) {
-        $monsters = $this->get_monsters($max_level);
+    private function generate_new_monster_data($min_level, $max_level) {
+        $monsters = $this->get_monsters($min_level, $max_level);
         $data = array();
 
         $monster = $monsters[rand(0,count($monsters)-1)];
@@ -183,11 +184,11 @@ class Ajax_model extends CI_Model {
         return $data;
     }
 
-    public function add_monsters_to_room($tile_id, $min_monsters, $max_monsters, $max_level) {
+    public function add_monsters_to_room($tile_id, $min_monsters, $max_monsters, $min_level, $max_level) {
         $this->db->trans_start();
         for ($n=0; $n<rand($min_monsters,$max_monsters);$n++) {
             //log_message('debug','### Adding a monsters to this room');
-            $data = $this->generate_new_monster_data($max_level);
+            $data = $this->generate_new_monster_data($min_level, $max_level);
             $data['id_dngtile'] = $tile_id;
             $this->db->insert('dngtile_monsters',$data);
         }

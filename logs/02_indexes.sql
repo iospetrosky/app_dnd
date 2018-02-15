@@ -1,3 +1,5 @@
+use dnd;
+
 ALTER TABLE `dng_tiles`
 	CHANGE COLUMN `tcode` `tcode` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci';
 	
