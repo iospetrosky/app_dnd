@@ -303,12 +303,12 @@ class Ajax_model extends CI_Model {
         $result = new stdClass();
         $result->element = "DR_$id";
         $atts = array();
-        $result->content = "I: " . rand(1,10); // initiative
+        $result->content = "<div>I: " . rand(1,10) . "</div>"; // initiative
         for ($a=0; $a< $monster->num_attacks; $a++) {
             $atts[] = rand(1,10) + $monster->bonus_attack;
         }
-        $result->content .= " A: " . implode(', ',$atts); // attacks
-        $result->content .= " D: " . (string)(rand(1,10) + $monster->bonus_defense); // defense
+        $result->content .= "<div>A: " . implode(', ',$atts) . "</DIV>"; // attacks
+        $result->content .= "<div>D: " . (string)(rand(1,10) + $monster->bonus_defense) . "</div>"; // defense
         
         $this->db->set('dice_rolls',$result->content)
                  ->where('id',$id)
