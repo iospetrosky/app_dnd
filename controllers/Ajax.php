@@ -51,6 +51,7 @@ class Ajax extends CI_Controller {
                                                  get_cookie('last_level'),
                                                  $this->input->post('min_monsters'),
                                                  $this->input->post('max_monsters'),
+                                                 $this->input->post('min_level'),
                                                  $this->input->post('max_level'),
                                                  $this->input->post('max_items')
                                                  );

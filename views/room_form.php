@@ -165,7 +165,7 @@ function run_local() {
     }) // tile_id processor   
     
     $("#btn_new_room").mouseup(function() {
-        var params = make_param_list(['tile_id','min_monsters', 'max_monsters','max_items','max_level'])
+        var params = make_param_list(['tile_id','min_monsters', 'max_monsters','max_items','min_level', 'max_level'])
         if(isNaN(params['tile_id'])) {
             // create a new room
             params['aktion'] = 'MAKE_NEW_ROOM'

@@ -196,7 +196,7 @@ class Ajax_model extends CI_Model {
         echo json_encode(array('tile_id' => $tile_id, 'monsters' => $n));
     }
     
-    public function make_new_room($tile_id, $tile_set, $dungeon, $level, $min_monsters, $max_monsters, $max_level, $max_items) {
+    public function make_new_room($tile_id, $tile_set, $dungeon, $level, $min_monsters, $max_monsters, $min_level, $max_level, $max_items) {
         $this->db->trans_start();
         $data = array('dcode' => $dungeon, 'tcode' => $tile_id);
         $this->db->insert('dng_tiles',$data);
@@ -204,7 +204,7 @@ class Ajax_model extends CI_Model {
         
         for ($n=0; $n<rand($min_monsters,$max_monsters);$n++) {
             //log_message('debug','### Adding a monsters to this room');
-            $data = $this->generate_new_monster_data($max_level);
+            $data = $this->generate_new_monster_data($min_level, $max_level);
             $data['id_dngtile'] = $last_tile_id;
             $this->db->insert('dngtile_monsters',$data);
         }
