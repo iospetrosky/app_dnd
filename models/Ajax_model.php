@@ -151,7 +151,7 @@ class Ajax_model extends CI_Model {
             // assign an armor
             $armors = $this->get_armors($monster->mlevel);
             $arm = $armors[rand(0,count($armors)-1)];
-            if ($arm->description != 'no_armor') {
+            if ($arm->description != 'no armor') {
                 $bc = 0;
                 if (rand(1,5) == 1) { // chances the armour is blessed/cursed
                     if (rand(1,3) == 1) {// cursed
