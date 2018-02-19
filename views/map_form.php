@@ -22,7 +22,7 @@ function load_map() {
     var params = new Object()
 
     last_selected_tile = ''
-    setCookie('last_tile','',-10) // dovrebbe scadere
+    //setCookie('last_tile','',-10) // dovrebbe scadere ... perche'
     $("#messages").text('Loading map... wait please');
     $.get(ajax_url + "/getmap/",
         function(data) {

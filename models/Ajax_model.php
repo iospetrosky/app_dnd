@@ -75,10 +75,11 @@ class Ajax_model extends CI_Model {
         echo json_encode(array('png' => $png));
     }
     
-    private function get_monsters($max_level) {
+    private function get_monsters($min_level, $max_level) {
         $data = $this->db->select('mname, mlevel, kattack')
                     ->from('monsters')
-                    ->where('mlevel <=',$max_level)
+                    //->where('mlevel <=',$max_level)
+                    ->where("mlevel between $min_level and $max_level")
                     ->get();
         return $data->result();
     }
@@ -119,8 +120,8 @@ class Ajax_model extends CI_Model {
         return $data->result();
     }
 
-    private function generate_new_monster_data($max_level) {
-        $monsters = $this->get_monsters($max_level);
+    private function generate_new_monster_data($min_level, $max_level) {
+        $monsters = $this->get_monsters($min_level, $max_level);
         $data = array();
 
         $monster = $monsters[rand(0,count($monsters)-1)];
@@ -150,7 +151,7 @@ class Ajax_model extends CI_Model {
             // assign an armor
             $armors = $this->get_armors($monster->mlevel);
             $arm = $armors[rand(0,count($armors)-1)];
-            if ($arm->description != 'no_armor') {
+            if ($arm->description != 'no armor') {
                 $bc = 0;
                 if (rand(1,5) == 1) { // chances the armour is blessed/cursed
                     if (rand(1,3) == 1) {// cursed
@@ -183,11 +184,11 @@ class Ajax_model extends CI_Model {
         return $data;
     }
 
-    public function add_monsters_to_room($tile_id, $min_monsters, $max_monsters, $max_level) {
+    public function add_monsters_to_room($tile_id, $min_monsters, $max_monsters, $min_level, $max_level) {
         $this->db->trans_start();
         for ($n=0; $n<rand($min_monsters,$max_monsters);$n++) {
             //log_message('debug','### Adding a monsters to this room');
-            $data = $this->generate_new_monster_data($max_level);
+            $data = $this->generate_new_monster_data($min_level, $max_level);
             $data['id_dngtile'] = $tile_id;
             $this->db->insert('dngtile_monsters',$data);
         }
@@ -195,7 +196,7 @@ class Ajax_model extends CI_Model {
         echo json_encode(array('tile_id' => $tile_id, 'monsters' => $n));
     }
     
-    public function make_new_room($tile_id, $tile_set, $dungeon, $level, $min_monsters, $max_monsters, $max_level, $max_items) {
+    public function make_new_room($tile_id, $tile_set, $dungeon, $level, $min_monsters, $max_monsters, $min_level, $max_level, $max_items) {
         $this->db->trans_start();
         $data = array('dcode' => $dungeon, 'tcode' => $tile_id);
         $this->db->insert('dng_tiles',$data);
@@ -203,7 +204,7 @@ class Ajax_model extends CI_Model {
         
         for ($n=0; $n<rand($min_monsters,$max_monsters);$n++) {
             //log_message('debug','### Adding a monsters to this room');
-            $data = $this->generate_new_monster_data($max_level);
+            $data = $this->generate_new_monster_data($min_level, $max_level);
             $data['id_dngtile'] = $last_tile_id;
             $this->db->insert('dngtile_monsters',$data);
         }
@@ -303,12 +304,12 @@ class Ajax_model extends CI_Model {
         $result = new stdClass();
         $result->element = "DR_$id";
         $atts = array();
-        $result->content = "I: " . rand(1,10); // initiative
+        $result->content = "<div>I: " . rand(1,10) . "</div>"; // initiative
         for ($a=0; $a< $monster->num_attacks; $a++) {
             $atts[] = rand(1,10) + $monster->bonus_attack;
         }
-        $result->content .= " A: " . implode(', ',$atts); // attacks
-        $result->content .= " D: " . (string)(rand(1,10) + $monster->bonus_defense); // defense
+        $result->content .= "<div>A: " . implode(', ',$atts) . "</DIV>"; // attacks
+        $result->content .= "<div>D: " . (string)(rand(1,10) + $monster->bonus_defense) . "</div>"; // defense
         
         $this->db->set('dice_rolls',$result->content)
                  ->where('id',$id)

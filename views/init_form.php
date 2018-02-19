@@ -35,24 +35,33 @@ function run_local() {
         }) // get
     }) // btn_new_dungeon.click
 } // run_local 
-
-    
 </script>
 
 <div id="main_form">
     <div class="form_item">
-        <div class="fixed_width_label">Dungeon name</div>
-        <input id="frmDungeonName" class="fixed_w1 autosave" type='text' >
-        <input type="button" value="New dungeon" id="btn_new_dungeon">
+        <div class="col1">Dungeon name</div>
+        <div class="col2">
+            <input id="frmDungeonName" class="autosave" type='text' style="width: 80px">
+        </div>
+        <div class="col2">
+            <input type="button" value="New dungeon" id="btn_new_dungeon">
+        </div>
     </div>
     <div class="form_item">
-        <div class="fixed_width_label">Dungeon level</div><input id="frmDungeonLevel" class="fixed_w1 autosave" type='text' >
+        <div class="col1">Dungeon level</div>
+        <div class="col2">
+            <input id="frmDungeonLevel" class="autosave" type='text' style="width: 80px">
+        </div>
     </div>
-    <div class="form_item"><div class="fixed_width_label">Tile set</div>
-        <select id="frmTileSets" class="fixed_w1 autosave">
-            <option selected value="Select">Select one...</option>
-            <?php foreach($tile_sets as $set): ?>
-            <option value="<?php echo $set->tile_set; ?>"><?php echo $set->tile_set; ?></option>
-            <?php endforeach; ?>
-        </select></div>   
+    <div class="form_item">
+        <div class="col1">Tile set</div>
+        <div class="col2">
+            <select id="frmTileSets" class="autosave" style="width: 150px">
+                <option selected value="Select">Select one...</option>
+                <?php foreach($tile_sets as $set): ?>
+                <option value="<?php echo $set->tile_set; ?>"><?php echo $set->tile_set; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>   
 </div>

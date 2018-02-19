@@ -130,8 +130,8 @@ function load_tile_image() {
             $("#max_items").val(o.max_items)
             $("#max_monsters").val(o.max_monsters)
             $("#min_monsters").val(0)
-            $("#xMonsters").html("")
-            $("#xItems").html("")
+            //$("#xMonsters").html("")
+            //$("#xItems").html("")
             HourGlass(false)
         }
     }) // ajax 
@@ -147,6 +147,8 @@ function run_local() {
     } else if (isNaN(getCookie('last_tile'))) {
         $("#tile_id").val(getCookie('last_tile'))
         load_tile_image()
+        $("#xMonsters").html("Room not yet created")
+        $("#xItems").html("Room not yet created")
     }
     HourGlass(false)
 
@@ -163,7 +165,7 @@ function run_local() {
     }) // tile_id processor   
     
     $("#btn_new_room").mouseup(function() {
-        var params = make_param_list(['tile_id','min_monsters', 'max_monsters','max_items','max_level'])
+        var params = make_param_list(['tile_id','min_monsters', 'max_monsters','max_items','min_level', 'max_level'])
         if(isNaN(params['tile_id'])) {
             // create a new room
             params['aktion'] = 'MAKE_NEW_ROOM'
@@ -189,7 +191,7 @@ function run_local() {
     })// btn_room mouse up
     
     $("#btn_add_monsters").click(function() {
-        var params = make_param_list(['tile_id','min_monsters','max_monsters','max_level'])
+        var params = make_param_list(['tile_id','min_monsters','max_monsters','min_level','max_level'])
         if(isNaN(params['tile_id'])) return; // only the code of the tile
         params['aktion'] = 'ADD_MONSTERS'
         HourGlass(true)
@@ -284,35 +286,39 @@ function run_local() {
 
 <!-- frame of the input fields and buttons -->
 <div  class="boxed" style="float:left" id="xCtrlPanel">
-    <div id="frmLine001">
-        <div class="form_item floating">
-            <div class="fixed_width_label">Tile code / ID</div>
-            <input class="fixed_w2" type="text" id="tile_id" >
-        </div>   
-        <div class="form_item">
+    <div id="frmLine002" class="form_item">
+        <div class="col1">Tile code / ID</div>
+        <div class="col2">
+            <input style="width: 60px" type="text" id="tile_id">
+        </div>
+        <div class="col3">
             <input type="button" value="Create/Load room" id="btn_new_room">
-        </div>  
+        </div>
     </div>
     
-    <div id="frmLine002">
-        <div class="form_item floating">
-            <div class="fixed_width_label">Min/Max monsters</div>
-            <input class="fixed_w3" type="text" id="min_monsters" value="0"> /
-            <input class="fixed_w3" type="text" id="max_monsters" value="0">
+    <div id="frmLine002" class="form_item">
+        <div class="col1">Min/Max monsters</div>
+        <div class="col2">
+            <input style="width: 30px" type="text" id="min_monsters" value="0"> /
+            <input style="width: 30px" type="text" id="max_monsters" value="0">
         </div>
-        <div class="form_item floating">
-            <div class="fixed_width_label">Max level</div>
-            <input class="fixed_w2" type="text" id="max_level" value="1" >
+        <div class="col3">Max/Min level</div>
+        <div class="col4">
+            <input style="width: 30px" type="text" id="min_level" value="1" > /
+            <input style="width: 30px" type="text" id="max_level" value="1" >
         </div>
-        <div class="form_item">
+        <div class="col5">
             <input type="button" value="Add monsters" id="btn_add_monsters">
         </div>   
     </div>  
     
-    <div id="frmLine003">
-        <div class="form_item">
-            <div class="fixed_width_label">Max items</div>
-            <input class="fixed_w3" type="text" id="max_items" value="0">
+    <div id="frmLine003" class="form_item">
+        <div class="col1">Max items</div>
+        <div class="col2">
+            <input style="width: 30px" type="text" id="max_items" value="0">
+        </div>
+        <div class="col3">
+            <input type="button" value="Add items" id="btn_add_items">
         </div>   
     </div>
     

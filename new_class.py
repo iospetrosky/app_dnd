@@ -4,6 +4,8 @@ import os.path as path
 
 xclass = "Tileset"
 
+#questo va in restyling
+
 f = "controllers/{}.php".format(xclass)
 if path.isfile(f):
     print ("{} already exist!!!".format(f))

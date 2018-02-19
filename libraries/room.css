@@ -19,6 +19,22 @@
 	width: 250px;
 	height: 200px;
 }
+.col1 {
+	width: 120px;
+}
+.col2 {
+	width: 100px;
+}
+.col3 {
+	width: 130px;
+}
+.col4 {
+	width: 100px;
+}
+.col5 {
+	width: 100px;
+}
+
 .s_table_cell_even {
 	font-size: 12px;
 	background-color: #FFFFCC;
@@ -32,3 +48,11 @@
 	background-color: #CCCCFF;
 	font-weight: bold;
 }    
+.dice_rolls_area {
+	float: left;
+	margin-right: 4px;
+}
+.dice_rolls_area div {
+	float: left;
+	width: 30px;
+}
