@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Ajax extends CI_Controller {
+class Ajax extends MY_Controller {
     
     public function __construct()
     {
         parent::__construct();
+        
         $this->load->model('ajax_model');
         $this->load->library('table');
         $this->load->helper('html_gen');
@@ -28,36 +29,36 @@ class Ajax extends CI_Controller {
         $this->ajax_model->roll_all_dice($tile_id);
         echo $tile_id;
     }
-
+    
     public function room() {
         switch($this->input->post('aktion')) {
             case 'GET_SINGLE_TILE':
-                $this->ajax_model->get_single_tile($this->input->post('tile_id'), get_cookie('last_tileset'));
+                $this->ajax_model->get_single_tile($this->hdata->tile_id, $this->hdata->last_tileset);
                 return;
             case 'GET_TILE_PIC':
-                $this->ajax_model->get_tile_pic($this->input->post('tile_id'));
+                $this->ajax_model->get_tile_pic($this->hdata->tile_id);
                 return;
             case 'ADD_MONSTERS':
-                $this->ajax_model->add_monsters_to_room($this->input->post('tile_id'),
-                                                        $this->input->post('min_monsters'),
-                                                        $this->input->post('max_monsters'),
-                                                        $this->input->post('min_level'),
-                                                        $this->input->post('max_level'));
+                $this->ajax_model->add_monsters_to_room($this->hdata->tile_id,
+                                                        $this->hdata->min_monsters,
+                                                        $this->hdata->max_monsters,
+                                                        $this->hdata->min_level,
+                                                        $this->hdata->max_level);
                 return;
             case 'MAKE_NEW_ROOM':
-                $this->ajax_model->make_new_room($this->input->post('tile_id'), 
-                                                 get_cookie('last_tileset'),
-                                                 get_cookie('last_dungeon'),
-                                                 get_cookie('last_level'),
-                                                 $this->input->post('min_monsters'),
-                                                 $this->input->post('max_monsters'),
-                                                 $this->input->post('min_level'),
-                                                 $this->input->post('max_level'),
-                                                 $this->input->post('max_items')
+                $this->ajax_model->make_new_room($this->hdata->tile_id, 
+                                                 $this->hdata->last_tileset,
+                                                 $this->hdata->last_dungeon,
+                                                 $this->hdata->last_level,
+                                                 $this->hdata->min_monsters,
+                                                 $this->hdata->max_monsters,
+                                                 $this->hdata->min_level,
+                                                 $this->hdata->max_level,
+                                                 $this->hdata->max_items
                                                  );
                 return;
             case 'LOAD_ITEMS_DATA':
-                $items = $this->ajax_model->get_room_items_list($this->input->post('tile_id'));
+                $items = $this->ajax_model->get_room_items_list($this->hdata->tile_id);
                 if ($items) {
                     $this->table->set_template(array(
                         'table_open' => '<table border=0 cellpadding=2 cellspacing=0 width="100%">',
@@ -79,7 +80,7 @@ class Ajax extends CI_Controller {
                 }
                 return;   
             case 'LOAD_MONSTER_DATA':
-                $monsters = $this->ajax_model->get_room_monsters_list($this->input->post('tile_id'));
+                $monsters = $this->ajax_model->get_room_monsters_list($this->hdata->tile_id);
                 if ($monsters) {
                     $this->table->set_template(array(
                         'table_open' => '<table border=0 cellpadding=2 cellspacing=0 width="100%">',
@@ -113,8 +114,8 @@ class Ajax extends CI_Controller {
                 }
                 return;
             case 'ROTATE_TILE':
-                $result = $this->ajax_model->rotate_tile($this->input->post('tile_id'), $this->input->post('rotation'));
-                echo json_encode(array("tile_id" => $this->input->post('tile_id'), "result" => $result));
+                $result = $this->ajax_model->rotate_tile($this->hdata->tile_id, $this->input->post('rotation'));
+                echo json_encode(array("tile_id" => $this->hdata->tile_id, "result" => $result));
                 return;
         } // switch
         
