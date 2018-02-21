@@ -14,7 +14,7 @@ class Tileset extends CI_Controller {
 	public function index()
 	{
 	    // load all the data needed in the views in variables to be passed as second parameter
-	    $data['images'] = $this->tileset_model->get_tile_set($this->input->cookie('last_tileset')); 
+	    $data['images'] = $this->tileset_model->get_tile_set($this->hdata->last_tileset); 
 	    
 		$this->load->view('top_menu');
 		$this->load->view('tileset_form',$data);
