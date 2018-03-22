@@ -2,7 +2,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Tileset extends CI_Controller {
+class Tileset extends MY_Controller {
     
     public function __construct()
     {

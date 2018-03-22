@@ -2,7 +2,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Room extends CI_Controller {
+class Room extends MY_Controller {
     
     public function __construct()
     {
@@ -22,10 +22,12 @@ class Room extends CI_Controller {
 		$this->load->view('top_menu',$spec);
 		$this->load->view('room_form',$data);
 	}
-	
-	public function ciao() {
+    
+    /*
+	public function test() {
 	    header('Access-Control-Allow-Origin: *');
 	    echo "chao";
-	}
+    }
+    */
 }
 

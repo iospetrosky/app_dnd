@@ -35,21 +35,6 @@ function run_local() {
         }) // get
     }) // btn_new_dungeon.click
     
-    $("#cazzarola").click(function() {
-        var params = new Object()
-        params['tile_id'] = 13456
-        params['aktion'] = 'LOAD_ITEMS_DATA'
-        
-        $.ajax({
-            url: base_url + '/ajax/TEST',
-            type: 'POST',
-            data: params,
-            success: function(data) {
-                alert(data)
-            }
-        }) // ajax 
-    })
-    
 } // run_local 
 </script>
 
@@ -81,4 +66,3 @@ function run_local() {
         </div>
     </div>   
 </div>
-<input type="button" value="test" id="cazzarola">
