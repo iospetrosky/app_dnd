@@ -10,7 +10,7 @@ function test_dungeon_owner(dungeon) {
                 ShowAlert('This dungeon is not yours or does not exist (or something worst happened)','Error')
             } 
         }
-    );
+    )
 }
 
 

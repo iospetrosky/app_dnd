@@ -205,5 +205,4 @@ $(document).ready(function () {
     </div>
 
 <?php 
-//echo APPPATH; 
 ?>

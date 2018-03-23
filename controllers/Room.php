@@ -1,4 +1,3 @@
-
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -11,8 +10,7 @@ class Room extends MY_Controller {
         $this->load->model('room_model');
 
         if (!$this->my_model->test_dungeon_owner($this->hdata->iam_id, $this->hdata->last_dungeon)) {
-            setcookie('traceinfo',"Redirecting...",time()+60,"/");
-            header('Location: /dnd.php', true);
+            header('Location: ' . config_item('base_url') . '/' . config_item('index_page'), true);
         }
     }
     

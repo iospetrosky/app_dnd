@@ -31,8 +31,8 @@ class MY_Controller extends CI_Controller {
         $this->load->model('my_model');
 
         if (!isset($this->hdata->iam_id)) {
-            setcookie('iam_callback','/dnd.php',time()+60*5,"/"); // expire when browser closes
-            header("Location: /iam.php");
+            setcookie('iam_callback',config_item('base_url') . '/dnd.php',time()+60*5,"/"); // expire when browser closes
+            header("Location: " . config_item('base_url') . "/iam.php");
         } else {
             if (isset($this->hdata->iam_callback)) {
                 // it's coming from the logon procedure

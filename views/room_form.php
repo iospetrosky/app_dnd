@@ -139,7 +139,7 @@ function load_tile_image() {
 
 function run_local() {
     var k = getCookie('last_tile')
-    if ((typeof(k) == 'number') && (k > 0)) {
+    if ((typeof(k-1) == 'number') && (k > 0)) {
         $("#tile_id").val(k)
         load_monster_data(k)
         load_tile_picture(k)
