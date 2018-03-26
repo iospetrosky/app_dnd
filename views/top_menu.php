@@ -110,6 +110,13 @@ $(document).ready(function () {
             case 3:
                 window.location.replace(u + '/dnd.php/tileset')
                 break
+            case 4:
+                window.location.replace(u + '/dnd.php/dmaster')
+                break
+            case 5: // User info
+                window.location.replace(u + '/iam.php/control')
+                break
+            
         }
     })
 
@@ -180,7 +187,7 @@ $(document).ready(function () {
             <div class="nav_menu out_of_screen" id="nav2">
                 <?php
                     $links = [
-                        ['Pers. info','ico_sword.png'],
+                        ['DM info','ico_sword.png'],
                         ['User info','ico_sword.png'],
                     ];
                     foreach ($links as $lnk) {
@@ -203,6 +210,3 @@ $(document).ready(function () {
             </div>
         </div>
     </div>
-
-<?php 
-?>
