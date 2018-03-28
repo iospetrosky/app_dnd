@@ -1,14 +1,30 @@
 <script type="text/javascript">
 var base_url = "<?php echo config_item('base_url') . '/' . config_item('index_page'); ?>"
 
+function test_dungeon_owner(dungeon) {
+    if (dungeon == '') return;
+
+    $.get(encodeURI(base_url + '/Welcome/tdo/' + dungeon ),
+        function(data) {
+            if (data != 'OK') {
+                ShowAlert('This dungeon is not yours or does not exist (or something worst happened)','Error')
+            } 
+        }
+    )
+}
+
+
 function run_local() {
     $("#frmTileSets").val(getCookie('last_tileset'))
     $("#frmDungeonName").val(getCookie('last_dungeon'))
     $("#frmDungeonLevel").val(getCookie('last_level'))
 
+    test_dungeon_owner(getCookie('last_dungeon',''))
+
     $(".autosave").change(function() {
         if ($(this).attr('id')=='frmDungeonName') {
             $(this).val($(this).val().toUpperCase())
+            test_dungeon_owner($(this).val())
         }
 
         setCookie('last_dungeon',$("#frmDungeonName").val(),10)
@@ -34,6 +50,7 @@ function run_local() {
             ShowAlert('Something bad happened. Probably there is already a dungeon with that name','Error')
         }) // get
     }) // btn_new_dungeon.click
+    
 } // run_local 
 </script>
 

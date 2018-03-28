@@ -1,11 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Map extends CI_Controller {
+class Map extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('map_model');
+        $this->load->model('my_model');
         $this->load->helper('form');
         $this->load->helper('html_gen');
+
+        if (!$this->my_model->test_dungeon_owner($this->hdata->iam_id, $this->hdata->last_dungeon)) {
+            header('Location: ' . config_item('base_url') . '/' . config_item('index_page'), true);
+        }
     }
     
     public function getmap() {
@@ -22,7 +27,7 @@ class Map extends CI_Controller {
     }
     
     public function putonmap($y, $x, $id_dngtile) {
-        $this->map_model->put_on_map($y, $x, $id_dngtile, $this->input->cookie('last_dungeon'), $this->input->cookie('last_level'));
+        $this->map_model->put_on_map($y, $x, $id_dngtile, $this->hdata->last_dungeon, $this->hdata->last_level);
     }
     
     public function remove($id_dngtile) {
@@ -30,9 +35,9 @@ class Map extends CI_Controller {
     }  
 
     public function index() {
-        $data['dng_code']        = $this->input->cookie('last_dungeon');
-        $data['dng_description'] = $this->map_model->get_dng_descr($data['dng_code']);
-        $data['dng_level']       = $this->input->cookie('last_level');
+        $data['dng_code']        = $this->hdata->last_dungeon;
+        $data['dng_description'] = $this->map_model->get_dng_descr($this->hdata->last_dungeon);
+        $data['dng_level']       = $this->hdata->last_level;
         $spec['css']             = array('map.css');
         $this->load->view('top_menu', $spec);
         $this->load->view('map_form', $data);

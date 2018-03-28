@@ -1,8 +1,8 @@
-#!/usr/bin/python
-import subprocess as sp
+##!/usr/bin/python
+#import subprocess as sp
 import os.path as path
 
-xclass = "Tileset"
+xclass = "DMaster"
 
 #questo va in restyling
 
@@ -39,7 +39,7 @@ class XXX extends CI_Controller {
 
     file.write(testo)
     file.close()
-    sp.call(['chmod','0666',"controllers/{}.php".format(xclass)])
+    #sp.call(['chmod','0666',"controllers/{}.php".format(xclass)])
     
     
 
@@ -68,7 +68,7 @@ class XXX_model extends CI_Model {
     testo = testo.replace('XXX',xclass)
     file.write(testo)
     file.close()
-    sp.call(['chmod','0666',"models/{}_model.php".format(xclass)])
+    #sp.call(['chmod','0666',"models/{}_model.php".format(xclass)])
 
 
 f = "views/{}_form.php".format(xclass.lower())
@@ -97,7 +97,7 @@ function run_local() {
     testo = testo.replace('XXX',xclass.lower())
     file.write(testo)
     file.close()
-    sp.call(['chmod','0666',"views/{}_form.php".format(xclass.lower())])
+    #sp.call(['chmod','0666',"views/{}_form.php".format(xclass.lower())])
 
 
 

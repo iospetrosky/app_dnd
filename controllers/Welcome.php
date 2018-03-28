@@ -1,12 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends MY_Controller {
     
     public function __construct()
     {
         parent::__construct();
         $this->load->model('welcome_model');
+        $this->load->model('my_model');
     }
     
 	public function index()
@@ -20,7 +21,19 @@ class Welcome extends CI_Controller {
 	}
 	
 	public function newdungeon($dname,$text) {
-	    $j = $this->welcome_model->create_new_dungeon($dname,urldecode($text));
+	    $j = $this->welcome_model->create_new_dungeon($dname,urldecode($text),$this->hdata->iam_id);
 	    echo json_encode($j);
-	}
+    }
+
+    public function tdo($dname) {
+        // placeholder for test dungeon owner
+        $t = $this->my_model->test_dungeon_owner($this->hdata->iam_id, $dname);
+        if ($t) { 
+            echo 'OK';
+        } else {
+            echo 'NO';
+        }
+    }
+    
+    
 }
