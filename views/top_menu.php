@@ -53,7 +53,28 @@ function HourGlass(m) {
         }
     }
 }    
-    
+
+function show_menu(id, anim=1000) {
+    switch(id) {
+        case 'menu1':
+            $("#nav2").animate({opacity:0},anim, function(){
+                $('#nav2').addClass("out_of_screen")
+                $('#nav1').removeClass("out_of_screen")
+                $("#nav1").animate({opacity:1},anim)
+                setCookie('visible_menu','menu1',1)
+            })
+            break
+        case 'menu2':
+            $("#nav1").animate({opacity:0},anim, function() {
+                $('#nav1').addClass("out_of_screen")
+                $('#nav2').removeClass("out_of_screen")
+                $("#nav2").animate({opacity:1},anim)
+                setCookie('visible_menu','menu2',1)
+            })
+            break
+    }
+}
+
 $(document).ready(function () {
     //$('#nav2').addClass("out_of_screen")
 
@@ -71,26 +92,12 @@ $(document).ready(function () {
         }
     }
 
-    var visible_menu = getCookie('visible_menu','none')
+    var visible_menu = getCookie('visible_menu','menu1')
+    show_menu(visible_menu,0)
 
     $(".nav_opener").click(function() {
         var id = ($(this).attr('id'))
-        switch(id) {
-            case 'menu1':
-                $("#nav2").animate({opacity:0},1000, function(){
-                    $('#nav2').addClass("out_of_screen")
-                    $('#nav1').removeClass("out_of_screen")
-                    $("#nav1").animate({opacity:1},1000)
-                })
-                break
-            case 'menu2':
-                $("#nav1").animate({opacity:0},1000, function() {
-                    $('#nav1').addClass("out_of_screen")
-                    $('#nav2').removeClass("out_of_screen")
-                    $("#nav2").animate({opacity:1},1000)
-                })
-                break
-        }
+        show_menu(id)
     })
 
     $(".menu_button").click(function(){
